@@ -54,9 +54,15 @@ LINE = "I understand your frustration, and I have escalated this to a team who w
 MAX_CHARS = 199
 
 
+def _check_length(text: str) -> None:
+    """Helper split out of check_gate (Pass-3 revision: keep the gate's
+    length rule in one place so check_gate stays a thin composition)."""
+    assert 1 <= len(text) <= MAX_CHARS, f"line is {len(text)} chars, gate is 1-{MAX_CHARS}"
+
+
 def check_gate(text: str) -> None:
     """Mirror the sealed gate: 1-199 UTF-8 chars, not only whitespace, one line."""
-    assert 1 <= len(text) <= MAX_CHARS, f"line is {len(text)} chars, gate is 1-{MAX_CHARS}"
+    _check_length(text)
     assert text.strip(), "line must not be only whitespace"
     assert "\n" not in text, "entry must be a single line"
 
